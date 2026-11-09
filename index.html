@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선크림 마스터: 자외선 방어 작전</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--bg:#fff7ec;--card:#ffffff;--ink:#3b4150;--sub:#7a8090;--sun:#f07f00;--uv:#7b3fe4;--blue:#1f6fd6;--green:#13935c;--red:#d9443a;--pink:#e0457b;--line:#f1dcc0;--soft:#fff3e2}
+@font-face{font-family:'ACinemaL';src:local('a시네마L'),local('aCinemaL'),local('a시네마 L'),local('a시네마');}
+*{box-sizing:border-box;font-family:'a시네마L','ACinemaL','aCinemaL','a시네마','aCinema','Apple SD Gothic Neo','Malgun Gothic',sans-serif;font-weight:400!important}
+b,strong,h1,h2,h3,h4,h5,th,button,select,label{font-weight:400!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-size:17px;line-height:1.75;word-break:keep-all}
+header{background:linear-gradient(100deg,#ffb347,#ff7e5f 60%,#c86dd7);color:#fff;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.title{font-size:24px;line-height:1.3}.title small{display:block;font-size:14px;opacity:.95}
+.brand{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.95);color:var(--ink);border-radius:14px;padding:6px 12px;margin-left:auto}
+.brand .lg{font-size:17px;color:#1f6fd6;letter-spacing:1.5px;line-height:1.2}.brand .lg span{color:#13a36a}
+.brand .em{font-size:12.5px;color:#7a8090;line-height:1.2}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.nb{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;font-size:14.5px;color:var(--ink);cursor:pointer}
+.nb.on{background:var(--sun);color:#fff;border-color:var(--sun)}
+.nb.ok:not(.on){color:var(--green);border-color:#9fdcc1}
+.nb.lock{color:#b8b8c0;background:#f6f6f8;cursor:not-allowed}
+main{max-width:1000px;margin:0 auto;padding:18px 14px 90px}
+.card{background:var(--card);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 4px 16px rgba(240,127,0,.08);border:1px solid var(--line)}
+h2{font-size:25px;color:var(--sun);margin:0 0 6px;line-height:1.4}
+h3{font-size:19.5px;color:var(--blue);margin:4px 0 10px;line-height:1.45}
+.lead{font-size:17.5px}
+.c-uv{color:var(--uv)}.c-sun{color:var(--sun)}.c-blue{color:var(--blue)}.c-green{color:var(--green)}.c-red{color:var(--red)}.c-pink{color:var(--pink)}.c-sub{color:var(--sub)}
+.small{font-size:14px}
+.hidden{display:none!important}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.concept{border-radius:14px;padding:14px 16px}
+.concept.uva{background:#f3ecff;border:1px solid #d9c7ff}.concept.uvb{background:#fff0ea;border:1px solid #ffd0bf}
+.ctag{font-size:19px;margin-bottom:4px}.concept.uva .ctag{color:var(--uv)}.concept.uvb .ctag{color:var(--red)}
+.concept p{margin:6px 0}
+.tip{background:var(--soft);border-left:5px solid var(--sun);border-radius:10px;padding:10px 14px;margin-top:14px}
+.btn{background:var(--sun);color:#fff;border:none;border-radius:12px;padding:10px 18px;font-size:16.5px;cursor:pointer;margin:6px 6px 0 0}
+.btn:hover{filter:brightness(1.07)}.btn:disabled{background:#d6d6dc;cursor:not-allowed}
+.btn.blue{background:var(--blue)}.btn.green{background:var(--green)}.btn.uv{background:var(--uv)}.btn.ghost{background:#fff;color:var(--sun);border:1px solid var(--sun)}
+.btn.sm{font-size:15px;padding:7px 14px}
+input[type=text],select,textarea{font-size:16px;border:1px solid #e3cfb0;border-radius:10px;padding:8px 10px;background:#fffdf9;color:var(--ink)}
+textarea{width:100%;resize:vertical;line-height:1.6}
+.q{border:1px dashed #efcf9f;border-radius:14px;padding:14px;margin:12px 0;background:#fffdf8}
+.qt{margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{text-align:left;border:1px solid #e9d6b8;background:#fff;border-radius:10px;padding:9px 12px;font-size:16px;cursor:pointer;color:var(--ink)}
+.opt:hover{background:#fff6e8}.opt.sel{border-color:var(--blue);background:#eaf2ff;color:var(--blue)}
+.opt.wrong{border-color:#f2a49e;background:#fff0ef;color:var(--red)}.opt.right{border-color:#87d3ae;background:#e9f9f0;color:var(--green)}
+.fb{margin-top:8px;font-size:15.5px}.fb.good{color:var(--green)}.fb.bad{color:var(--red)}
+.fb .tip2{color:var(--blue);display:block;margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 14px;padding:10px;border-radius:12px;background:#f7f2ff}
+.chip{padding:6px 14px;border-radius:999px;background:#fff;border:1px solid #cdb6ff;color:var(--uv);cursor:grab;user-select:none;font-size:16px}
+.chip.sel{background:var(--uv);color:#fff}
+.chip.spf{border-color:#ffb9a3;color:var(--red)}.chip.spf.sel{background:var(--red);color:#fff}
+.sit{display:flex;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff}
+.sit .st{flex:1 1 240px}
+.slot{min-width:92px;min-height:36px;border:2px dashed #d9c3a2;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:2px 10px;cursor:pointer;color:var(--sub);font-size:15px;background:#fffaf3}
+.slot.filled{border-style:solid;color:var(--ink)}.slot.bad{border-color:var(--red);background:#fff0ef}.slot.good{border-color:var(--green);background:#ecfaf3}
+.sit .hint{flex-basis:100%;font-size:14.5px;color:var(--red)}
+.indsel{margin-bottom:10px}
+.wells{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.well{border:1px solid #ecdcc4;border-radius:12px;padding:10px;text-align:center;background:#fffcf7}
+.well label{display:block;font-size:14px;margin-top:6px}.well select{width:100%;margin-top:2px}
+.wdot{width:38px;height:38px;border-radius:50%;margin:0 auto 4px;background:radial-gradient(circle at 35% 35%,#fff,#f3e7d2);border:1px solid #e5d3b5}
+.wlab{font-size:15px;color:var(--blue);line-height:1.4}
+.row-card.done{border-color:#9fdcc1;background:#f6fffa}
+.lab{position:relative;background:linear-gradient(#2b2440,#3b3155);border-radius:18px;padding:16px;color:#fff;overflow:hidden}
+.lamp{width:70%;margin:0 auto 18px;height:34px;border-radius:0 0 40px 40px;background:#555066;position:relative;display:flex;align-items:center;justify-content:center;font-size:14px;color:#ddd}
+.lamp.on{background:#8f5cff;box-shadow:0 0 30px 10px rgba(160,100,255,.7);color:#fff}
+.rays{position:absolute;left:0;right:0;top:50px;bottom:0;pointer-events:none;opacity:0;transition:opacity .6s;background:repeating-linear-gradient(90deg,rgba(170,120,255,.0) 0 22px,rgba(170,120,255,.18) 22px 30px)}
+.lab.on .rays{opacity:1;animation:shim 1.2s linear infinite}
+@keyframes shim{0%{background-position:0 0}100%{background-position:30px 0}}
+.film{position:relative;background:rgba(220,235,255,.13);border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:12px}
+.frow{display:grid;grid-template-columns:86px repeat(3,1fr);gap:8px;align-items:center;margin-bottom:8px}
+.frow .rl{font-size:13.5px;color:#ffd79a;line-height:1.3}
+.cell{text-align:center;font-size:12.5px;color:#e9e4ff;line-height:1.3}
+.stk{position:relative;width:58px;height:58px;border-radius:50%;margin:0 auto 4px;background:#fdfaf2;border:2px solid rgba(255,255,255,.75);transition:background-color 15s linear;overflow:hidden}
+.stk .patch{position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity 15s linear;background:radial-gradient(circle at 30% 35%,rgba(94,23,160,.95) 0 22%,transparent 23%),radial-gradient(circle at 68% 62%,rgba(94,23,160,.9) 0 18%,transparent 19%),radial-gradient(circle at 55% 25%,rgba(94,23,160,.75) 0 10%,transparent 11%)}
+.count{text-align:center;font-size:20px;color:#ffd79a;margin:6px 0}
+.legend{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px;margin:8px 0}
+.sw{width:30px;height:30px;border-radius:50%;border:1px solid #ccc;display:inline-flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:#555}
+.sw.dark{color:#fff}.sw.sel{outline:3px solid var(--sun);outline-offset:1px}
+.rec{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.rbox{border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center}
+.rbox.bad{border-color:var(--red);background:#fff2f1}
+.rbox .sws{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border:1px solid #eedcc3;padding:6px 8px;text-align:center}
+th{background:#fff1dc;color:var(--sun)}
+.anim{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ap{position:relative;height:230px;border-radius:14px;overflow:hidden;background:linear-gradient(#e9f3ff,#fdf6ff)}
+.ap .cap{position:absolute;top:6px;left:10px;font-size:15px}
+.skin{position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(#ffd7c4,#f5b49a);display:flex;align-items:center;justify-content:center;font-size:13px;color:#8a4b37}
+.layer{position:absolute;left:0;right:0;bottom:56px;height:34px;display:flex;justify-content:space-around;align-items:center}
+.pt{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#cfd5de);border:1px solid #aab;font-size:8px;display:flex;align-items:center;justify-content:center;color:#556}
+.mol{font-size:24px;color:#e98a2a;transition:text-shadow .3s}
+.ph{position:absolute;width:14px;height:14px;border-radius:50%;background:#8b4dff;box-shadow:0 0 10px 4px rgba(139,77,255,.6);top:30px;opacity:0}
+.heat{position:absolute;font-size:20px;color:#ff6a2a;opacity:0}
+.play .ph.r1{animation:refl 2.6s ease-in infinite}
+.play .ph.r2{animation:refl 2.6s ease-in .9s infinite}
+.play .ph.r3{animation:refl 2.6s ease-in 1.7s infinite}
+@keyframes refl{0%{opacity:1;transform:translate(0,0)}45%{opacity:1;transform:translate(18px,110px)}100%{opacity:0;transform:translate(70px,-10px)}}
+.play .ph.a1{animation:abs 2.6s ease-in infinite}
+.play .ph.a2{animation:abs 2.6s ease-in .9s infinite}
+.play .ph.a3{animation:abs 2.6s ease-in 1.7s infinite}
+@keyframes abs{0%{opacity:1;transform:translate(0,0)}45%{opacity:1;transform:translate(10px,112px)}52%{opacity:0;transform:translate(10px,116px)}100%{opacity:0}}
+.play .heat.h1{animation:heat 2.6s ease-out infinite}
+.play .heat.h2{animation:heat 2.6s ease-out .9s infinite}
+.play .heat.h3{animation:heat 2.6s ease-out 1.7s infinite}
+@keyframes heat{0%,50%{opacity:0;transform:translateY(0)}60%{opacity:1}100%{opacity:0;transform:translateY(-70px)}}
+.play .mol{animation:glow 2.6s infinite}
+@keyframes glow{0%,40%{text-shadow:none}50%,65%{text-shadow:0 0 12px #ff7b00,0 0 22px #ffb300}100%{text-shadow:none}}
+.sortwrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.pool{display:flex;flex-wrap:wrap;gap:8px;min-height:50px;padding:10px;border-radius:12px;background:#f5f5f8;border:1px dashed #ccc}
+.col{min-height:140px;border-radius:12px;padding:10px;display:flex;flex-wrap:wrap;gap:7px;align-content:flex-start}
+.col.phys{background:#eef5ff;border:2px dashed #9cc2f5}.col.chem{background:#fff3e8;border:2px dashed #f7bb84}
+.col .ch{width:100%;font-size:16px}.col.phys .ch{color:var(--blue)}.col.chem .ch{color:var(--sun)}
+.ccard{background:#fff;border:1px solid #ddd;border-radius:10px;padding:5px 10px;font-size:14.5px;cursor:grab;user-select:none}
+.ccard.sel{border-color:var(--uv);color:var(--uv);box-shadow:0 0 0 2px #d9c7ff}
+.ccard.bad{border-color:var(--red);color:var(--red)}
+.profile{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,#fff4e0,#f3ecff);border-radius:14px;padding:14px}
+.profile .em{font-size:48px}
+.rx{display:grid;grid-template-columns:150px 1fr;gap:8px 12px;align-items:center;margin-top:14px}
+.rx select{width:100%}
+.rx .bad{color:var(--red);font-size:14px;grid-column:2}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#3b3155;color:#fff;padding:10px 18px;border-radius:12px;font-size:15.5px;z-index:99;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%}
+.toast.show{opacity:1}
+.map{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.map div{background:var(--soft);border-radius:12px;padding:10px;font-size:15px}
+.map div span{display:block;color:var(--sun);font-size:16.5px}
+.grade{font-size:84px;line-height:1;width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;margin:0 auto}
+.rep-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--line);padding-bottom:10px;margin-bottom:14px}
+.bar{height:12px;background:#f1e6d6;border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;border-radius:6px}
+.sc-row{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;margin:6px 0;font-size:15.5px}
+.narr p{margin:6px 0 10px}
+.wbox{background:#fffaf2;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0 12px;white-space:pre-wrap;font-size:15.5px}
+.up{border:2px solid #ffcf8f;background:#fff8ec;border-radius:14px;padding:14px}
+.up .it{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px dashed #f0d2a6;padding:8px 0}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.pbox{display:flex;flex-direction:column}
+.pp{position:relative;height:240px;border-radius:14px;overflow:hidden;background:linear-gradient(#e9f3ff,#fdf6ff);border:1px solid #e3d9f5}
+.pp .cap{position:absolute;top:6px;left:10px;font-size:16px}
+.pp .layer{bottom:50px;height:40px}.pp .skin{height:50px}
+.pt{transition:box-shadow .2s,transform .2s}.pt.hit{box-shadow:0 0 0 4px rgba(31,111,214,.45);transform:scale(1.15)}
+.mol.on{text-shadow:0 0 12px #ff7b00,0 0 22px #ffb300;color:#ff7b00}
+.uvp{position:absolute;width:16px;height:16px;border-radius:50%;background:#8b4dff;box-shadow:0 0 12px 5px rgba(139,77,255,.6);opacity:0;transition:top 1.2s ease-in,opacity .3s}
+.hw{position:absolute;color:#ff5a1f;font-size:15px;line-height:1.1;text-align:center;transition:top 1.8s ease-out,opacity 1.8s ease-in}
+.ptag{position:absolute;top:104px;font-size:14px;background:rgba(255,255,255,.85);border-radius:8px;padding:0 6px;white-space:nowrap}
+.pcap{min-height:58px;background:#faf6ff;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:15px;line-height:1.55}
+.steps{margin:8px 0 0;padding-left:4px;list-style:none;font-size:14px;color:#9a9fae}
+.steps li{padding:3px 6px;border-radius:8px;margin-bottom:3px}.steps li.on{background:#fff3e2;color:var(--ink)}
+.ptab td:first-child{background:#fffaf2;color:var(--sun);white-space:nowrap}
+.ptab td{text-align:left;line-height:1.55}.ptab th.pc{background:#eaf2ff;color:var(--blue)}.ptab th.cc{background:#fff0e0;color:var(--sun)}
+.mixbox{margin-top:12px;background:#fff0f6;border:1px solid #f7c3d7;border-radius:12px;padding:10px 14px}
+@media (max-width:680px){
+ .pgrid{grid-template-columns:1fr}
+ body{font-size:16px}.title{font-size:20px}
+ .grid2,.anim,.sortwrap,.map{grid-template-columns:1fr}
+ .wells,.rec{grid-template-columns:1fr 1fr 1fr;gap:6px}
+ .well{padding:6px}.well select{font-size:13px;padding:5px}
+ .frow{grid-template-columns:60px repeat(3,1fr)}.stk{width:46px;height:46px}
+ .rx{grid-template-columns:1fr}.rx .bad{grid-column:1}
+ .sc-row{grid-template-columns:110px 1fr 56px}
+ .brand{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="title">🧴 선크림 마스터: 자외선 방어 작전<small>고등학교 2학년 · 자외선 차단제 가상 탐구 시뮬레이션</small></div>
+ <div class="brand" id="brand">
+  <img src="data:image/png;base64,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" alt="EARTH LJY 로고" style="width:52px;height:52px;object-fit:contain">
+  <div><div class="lg">EARTH <span>LJY</span></div><div class="em">earthljy@ai.jne.kr</div></div>
+ </div>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== 공통 상태 ===================== */
+const ST={name:'',sid:'',unlocked:0,cur:0,
+ score:{1:0,2:0,3:0,4:0,5:0,6:0},max:{1:15,2:15,3:20,4:15,5:15,6:20},
+ done:{},log:{1:{},2:{},3:{},4:{},5:{},6:{}},runs:{1:0,2:0,3:0,4:0,5:0,6:0},
+ write:{},setup:{},res:null,pred:{},rec:{},chr:null,rx:null};
+const NAV=[['시작','🚀'],['지식 관문','☀️'],['원리 관문','🔬'],['설계 관문','🧪'],['실험 관문','💡'],['분석 관문','📊'],['최종 관문','🧴'],['미션 성공','🏆']];
+const SNAME={1:'Stage 1 지식 관문',2:'Stage 2 원리 관문',3:'Stage 3 설계 관문',4:'Stage 4 실험 관문',5:'Stage 5 분석 관문',6:'Stage 6 최종 관문'};
+const R={};
+function toast(t){const e=document.getElementById('toast');e.innerHTML=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2300)}
+function btn(t,f,cls='btn'){const b=document.createElement('button');b.className=cls;b.innerHTML=t;b.onclick=f;return b}
+function div(cls,html=''){const d=document.createElement('div');if(cls)d.className=cls;d.innerHTML=html;return d}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function renderNav(){const n=document.getElementById('nav');n.innerHTML='';
+ NAV.forEach((v,i)=>{const lock=i>ST.unlocked;const b=document.createElement('button');
+  b.className='nb'+(i===ST.cur?' on':'')+(lock?' lock':'')+(ST.done[i]?' ok':'');
+  b.innerHTML=`${lock?'🔒':(ST.done[i]?'✅':v[1])} ${i>=1&&i<=6?'Stage '+i+' ':''}${v[0]}`;
+  b.onclick=()=>{if(lock){toast('🔒 이전 단계를 완료해야 잠금이 해제됩니다.');return}go(i)};n.appendChild(b)})}
+function go(i){ST.cur=i;renderNav();const m=document.getElementById('main');m.innerHTML='';R[i](m);window.scrollTo({top:0,behavior:'smooth'})}
+function complete(n,score,m){
+ const was=!!ST.done[n],old=ST.score[n];score=Math.max(0,Math.min(ST.max[n],Math.round(score*10)/10));
+ ST.score[n]=Math.max(old,score);ST.done[n]=true;ST.unlocked=Math.max(ST.unlocked,n+1);renderNav();
+ const toRes=n===6||(was&&ST.unlocked>=7);
+ const box=div('card','');box.style.borderColor='#9fdcc1';box.style.background='#f4fff9';
+ box.innerHTML=`<h2 class="c-green">🔓 ${SNAME[n]} 완료!</h2><p>이번 수행 점수: <span class="c-blue">${score}</span> / ${ST.max[n]}점${was?` <span class="c-sub">(재도전: 기존 ${old}점 → 반영 점수 </span><span class="c-green">${ST.score[n]}점</span><span class="c-sub">, 더 높은 점수가 반영됩니다)</span>`:''}</p>`;
+ box.appendChild(btn(toRes?'🏆 미션 성공 탭으로 이동':`다음 단계로 이동 ▶`,()=>go(toRes?7:n+1),'btn green'));
+ m.appendChild(box);setTimeout(()=>box.scrollIntoView({behavior:'smooth',block:'center'}),100)}
+function startRun(n){ST.runs[n]++;ST.log[n]={};return ST.log[n]}
+function retryNote(n){return ST.done[n]?`<div class="tip">🔁 <span class="c-pink">재도전 모드</span> — 이 단계를 다시 수행하면 기존 점수(${ST.score[n]}점)와 비교해 <span class="c-green">더 높은 점수</span>가 반영됩니다.</div>`:''}
+
+/* ===================== 객관식 / 서술형 컴포넌트 ===================== */
+function mcq(parent,o){
+ const w=div('q',`<div class="qt">${o.q}</div><div class="opts"></div><div class="fb"></div>`);
+ const opts=w.querySelector('.opts'),fb=w.querySelector('.fb');let tries=0,sel=new Set(),done=false;
+ o.opts.forEach((t,i)=>{const b=btn(t,()=>{if(done)return;
+   if(o.multi){sel.has(i)?sel.delete(i):sel.add(i);b.classList.toggle('sel');return}
+   check([i],b)},'opt');opts.appendChild(b)});
+ if(o.multi)w.appendChild(btn('선택 완료 · 정답 확인',()=>{if(done)return;if(!sel.size){toast('하나 이상 선택하세요.');return}check([...sel])},'btn sm blue'));
+ function check(arr,b){tries++;const ans=[].concat(o.ans);
+  const ok=arr.length===ans.length&&arr.every(x=>ans.includes(x));
+  if(ok){done=true;[...opts.children].forEach((x,i)=>{x.classList.remove('wrong','sel');if(ans.includes(i))x.classList.add('right')});
+   fb.className='fb good';fb.innerHTML=`⭕ 정답입니다! ${o.exp||''}`;o.onDone&&o.onDone(tries===1,tries)}
+  else{if(b)b.classList.add('wrong');fb.className='fb bad';
+   let f=typeof o.fb==='string'?o.fb:'';if(!o.multi&&o.fb&&typeof o.fb==='object'&&o.fb[arr[0]])f=o.fb[arr[0]];
+   fb.innerHTML=`❌ 다시 생각해 보세요. ${f||''}<span class="tip2">→ 다른 답을 골라 다시 도전할 수 있어요.</span>`;o.onWrong&&o.onWrong()}}
+ parent.appendChild(w);return w}
+function evalText(t,groups,need){const s=t.replace(/\s+/g,' ');const hit=[],miss=[];
+ groups.forEach(g=>(g.kw.some(k=>s.toLowerCase().includes(k.toLowerCase()))?hit:miss).push(g));
+ return{hit,miss,ratio:Math.min(1,hit.length/(need||groups.length))}}
+function writer(parent,o){
+ const w=div('q',`<div class="qt">✍️ ${o.q}</div><textarea rows="4" placeholder="${o.ph||'자신의 말로 문장을 완성하여 써 보세요.'}"></textarea><div class="small c-sub cnt">0자 (최소 ${o.min}자)</div><div class="fb"></div>`);
+ const ta=w.querySelector('textarea'),cnt=w.querySelector('.cnt'),fb=w.querySelector('.fb');let best=0,sub=0;
+ if(ST.write[o.key])ta.value=ST.write[o.key];
+ ta.oninput=()=>cnt.textContent=`${ta.value.trim().length}자 (최소 ${o.min}자)`;
+ w.appendChild(btn('제출하고 피드백 받기',()=>{const t=ta.value.trim();
+  if(t.length<o.min){fb.className='fb bad';fb.innerHTML=`❌ 조금 더 자세히 써 주세요. 최소 ${o.min}자 이상 작성해야 합니다. (현재 ${t.length}자)`;return}
+  sub++;const r=evalText(t,o.groups,o.need);best=Math.max(best,r.ratio);ST.write[o.key]=t;
+  let h='';if(r.hit.length)h+=`<span class="c-green">👍 잘 들어간 내용: ${r.hit.map(g=>g.n).join(', ')}</span><br>`;
+  if(r.ratio>=1)h+=`<span class="c-green">⭕ 핵심 내용을 모두 갖춘 훌륭한 답안입니다!</span>`;
+  else{h+=`<span class="c-red">❗ 보완이 필요한 내용:</span>`+r.miss.slice(0,4).map(g=>`<span class="tip2">· ${g.n} — ${g.hint}</span>`).join('')+`<span class="tip2 c-sub">고쳐 쓴 뒤 다시 제출하면 더 높은 점수가 반영됩니다.</span>`}
+  fb.className='fb';fb.innerHTML=h;o.onSubmit&&o.onSubmit(best,sub)},'btn sm blue'));
+ parent.appendChild(w);return w}
+
+/* ===================== Stage 0: 시작 ===================== */
+R[0]=function(m){
+ m.innerHTML=`<div class="card"><h2>🚀 미션 브리핑</h2>
+ <p class="lead">여름 체험 학습을 앞둔 우리 반! 친구들이 “어떤 선크림을 얼마나 발라야 하지?” 고민에 빠졌습니다. 여러분은 <span class="c-uv">자외선 방어 연구원</span>이 되어 가상 실험실에서 직접 실험하고, 친구에게 <span class="c-sun">맞춤형 선크림 처방전</span>을 써 주어야 합니다.</p>
+ <div class="tip">🔒 <span class="c-pink">단계별 해제(Stage-Lock)</span> 시스템 — 각 단계의 미션을 모두 해결해야 다음 단계의 자물쇠가 풀립니다.</div>
+ <h3>🗺️ 탐구 지도</h3>
+ <div class="map">
+  <div><span>Stage 1 지식 관문</span>UVA·UVB, SPF·PA 구분</div>
+  <div><span>Stage 2 원리 관문</span>무기·유기·혼합자차 원리</div>
+  <div><span>Stage 3 설계 관문</span>4가지 실험의 변인 통제</div>
+  <div><span>Stage 4 실험 관문</span>자외선 램프 & 시광 스티커</div>
+  <div><span>Stage 5 분석 관문</span>결과 해석과 오차 분석</div>
+  <div><span>Stage 6 최종 관문 → 🏆</span>맞춤형 처방전 & A~F 평가</div>
+ </div>
+ <h3>🧑‍🔬 연구원 등록</h3>
+ <p>학번 <input type="text" id="sid" placeholder="예: 20315" style="width:120px"> 이름 <input type="text" id="snm" placeholder="이름" style="width:130px"></p>
+ <p class="small c-sub">입력한 정보는 마지막 미션 성공 리포트(이미지)에 표시됩니다. 새로고침하면 기록이 초기화되니 주의하세요.</p>
+ </div>`;
+ const c=m.querySelector('.card');document.getElementById('sid').value=ST.sid;document.getElementById('snm').value=ST.name;
+ c.appendChild(btn(ST.unlocked>=1?'이어서 진행하기 ▶':'미션 시작하기 ▶',()=>{
+  const s=document.getElementById('sid').value.trim(),n=document.getElementById('snm').value.trim();
+  if(!s||!n){toast('학번과 이름을 모두 입력하세요.');return}
+  ST.sid=s;ST.name=n;ST.done[0]=true;ST.unlocked=Math.max(ST.unlocked,1);go(Math.min(ST.unlocked,7)===7?7:Math.max(1,Math.min(ST.unlocked,6)))},'btn green'))};
+
+/* ===================== Stage 1: 지식 관문 ===================== */
+const SITS=[
+ {t:'🏫 창가가 아닌 교실에서 하루 종일 수업',spf:['SPF 15'],pa:['PA+'],h:'실내 위주 생활은 자외선 노출이 적어 낮은 지수로 충분해요.'},
+ {t:'☁️ 흐린 날 10분 걸어서 등굣길',spf:['SPF 15','SPF 30'],pa:['PA+','PA++'],h:'흐린 날에도 UVA는 구름을 통과하지만, 짧은 외출이라 중간 이하 지수면 충분해요.'},
+ {t:'🏃 한낮 운동장 체육 수업 1시간',spf:['SPF 30','SPF 50+'],pa:['PA++','PA+++'],h:'1시간 정도의 야외 활동은 SPF 30 이상, PA++ 이상이 적절해요.'},
+ {t:'🏖️ 한여름 한낮 해수욕장에서 반나절',spf:['SPF 50+'],pa:['PA+++','PA++++'],h:'강한 햇빛과 물의 반사가 있는 장시간 노출이므로 가장 높은 수준이 필요해요.'},
+ {t:'🎿 겨울 스키장 (눈 반사, 높은 고도)',spf:['SPF 50+'],pa:['PA+++','PA++++'],h:'눈은 자외선을 많이 반사하고 고도가 높을수록 자외선이 강해져요.'}];
+R[1]=function(m){
+ const L=startRun(1);L.cw=0;L.mw=0;L.rounds=0;
+ m.innerHTML=`${retryNote(1)}<div class="card"><h2>☀️ Stage 1 · 지식 관문</h2>
+ <p class="lead">미션: 자외선의 종류와 <span class="c-sun">SPF · PA</span>의 의미를 익히고, 상황에 맞는 차단 지수를 처방하라!</p>
+ <div class="grid2">
+  <div class="concept uva"><div class="ctag">UVA (자외선 A) · 320~400 nm</div>
+   <p>파장이 길어 <span class="c-uv">피부 깊숙이(진피)</span>까지 도달합니다.</p>
+   <p>→ <span class="c-uv">흑화(색소 침착)·주름·피부 노화</span>의 원인</p>
+   <p>유리창·구름도 잘 통과하여 <span class="c-uv">흐린 날, 실내</span>에서도 영향을 줍니다.</p>
+   <p>차단 지표: <span class="c-blue">PA 등급</span> (PA+ ~ PA++++, <span class="c-blue">+가 많을수록</span> UVA 차단 효과가 큼)</p></div>
+  <div class="concept uvb"><div class="ctag">UVB (자외선 B) · 280~320 nm</div>
+   <p>주로 <span class="c-red">피부 표피</span>에 작용하며 에너지가 큽니다.</p>
+   <p>→ <span class="c-red">홍반(붉어짐)·일광 화상</span>의 원인</p>
+   <p>한낮 여름철에 특히 강하며 유리창에 상당 부분 차단됩니다.</p>
+   <p>차단 지표: <span class="c-blue">SPF 지수</span> (숫자가 <span class="c-blue">클수록</span> UVB 차단 효과가 큼, 최고 표기 SPF 50+)</p></div>
+ </div>
+ <div class="tip">💡 SPF 30의 의미: 차단제를 바르지 않았을 때보다 <span class="c-red">홍반이 생기기까지 걸리는 시간이 약 30배</span> 길어진다는 뜻입니다. (UVB의 약 1/30만 통과 → 약 97% 차단)<br>💡 표시된 지수는 <span class="c-sun">피부 1 cm²당 2 mg</span>을 발랐을 때 측정한 값입니다.</div></div>
+ <div class="card" id="s1q"><h3>① 개념 확인 (3문항을 모두 맞히면 다음 미션이 열려요)</h3></div>
+ <div class="card hidden" id="s1m"><h3>② 상황별 차단 지수 처방 매칭</h3>
+ <p>칩을 <span class="c-blue">빈칸으로 드래그</span>하거나, <span class="c-blue">칩을 누른 뒤 빈칸을 눌러</span> 넣으세요. 같은 칩은 여러 번 쓸 수 있어요.</p>
+ <div class="chips" id="chips"></div><div id="sits"></div><div id="s1fb" class="fb"></div></div>`;
+ const qb=m.querySelector('#s1q');let ok=0;
+ const next=()=>{ok++;if(ok===3){m.querySelector('#s1m').classList.remove('hidden');m.querySelector('#s1m').scrollIntoView({behavior:'smooth'})}};
+ mcq(qb,{q:'Q1. 피부를 붉게 만들고 일광 화상(홍반)을 일으키는 주된 자외선은?',opts:['UVA','UVB','가시광선','적외선'],ans:1,
+  fb:{0:'UVA는 피부 깊숙이 들어가 노화·색소 침착을 주로 일으켜요.',2:'가시광선은 자외선이 아니에요.',3:'적외선은 열을 전달하는 빛으로 화상의 주원인이 아니에요.'},exp:'UVB는 표피에 작용해 홍반·화상을 일으키며, SPF로 차단 효과를 나타냅니다.',onDone:next,onWrong:()=>L.cw++});
+ mcq(qb,{q:'Q2. 자외선 차단제의 PA 등급이 나타내는 것은?',opts:['UVB 차단 효과의 크기','UVA 차단 효과의 정도','제품의 보습력','덧발라야 하는 시간 간격'],ans:1,
+  fb:{0:'UVB 차단 효과는 SPF 숫자로 나타내요.',2:'PA는 보습과 관계가 없어요.',3:'덧바르는 간격과 PA는 관계가 없어요.'},exp:'PA는 UVA 차단 등급이며, +가 많을수록 효과가 큽니다.',onDone:next,onWrong:()=>L.cw++});
+ mcq(qb,{q:'Q3. SPF 30에 대한 설명으로 옳은 것은?',opts:['30시간 동안 효과가 유지된다','UVA를 30% 차단한다','바르지 않았을 때보다 홍반이 생기기까지의 시간이 약 30배 늘어난다','SPF 15보다 2배 두껍게 발리는 제품이다'],ans:2,
+  fb:{0:'지속 시간이 아니에요. 땀·마찰로 지워지므로 2~3시간마다 덧발라야 해요.',1:'SPF는 UVA가 아닌 UVB에 대한 지수예요.',3:'SPF는 바르는 두께가 아니라 차단 효과의 크기를 나타내요.'},exp:'SPF 30은 UVB의 약 1/30만 통과시킨다는 의미입니다.',onDone:next,onWrong:()=>L.cw++});
+ // 매칭
+ const chipVals=['SPF 15','SPF 30','SPF 50+','PA+','PA++','PA+++','PA++++'];let pick=null;
+ const cb=m.querySelector('#chips');
+ chipVals.forEach(v=>{const c=div('chip'+(v.startsWith('SPF')?' spf':''),v);c.draggable=true;
+  c.ondragstart=e=>e.dataTransfer.setData('text/plain',v);
+  c.onclick=()=>{pick=v;cb.querySelectorAll('.chip').forEach(x=>x.classList.toggle('sel',x===c))};cb.appendChild(c)});
+ const sb=m.querySelector('#sits');
+ SITS.forEach((s,i)=>{const r=div('sit',`<div class="st">${s.t}</div><div class="slot" data-k="spf" data-i="${i}">SPF ?</div><div class="slot" data-k="pa" data-i="${i}">PA ?</div><div class="hint"></div>`);sb.appendChild(r)});
+ const place=(sl,v)=>{if(!v)return;const k=sl.dataset.k;if((k==='spf')!==v.startsWith('SPF')){toast(k==='spf'?'이 칸에는 SPF 칩을 넣어야 해요.':'이 칸에는 PA 칩을 넣어야 해요.');return}
+  sl.textContent=v;sl.dataset.v=v;sl.className='slot filled'};
+ sb.querySelectorAll('.slot').forEach(sl=>{sl.ondragover=e=>e.preventDefault();sl.ondrop=e=>{e.preventDefault();place(sl,e.dataTransfer.getData('text/plain'))};sl.onclick=()=>place(sl,pick)});
+ const mb=m.querySelector('#s1m');let fin=false;
+ mb.appendChild(btn('✅ 처방 확인하기',()=>{if(fin)return;const sl=[...sb.querySelectorAll('.slot')];
+  if(sl.some(x=>!x.dataset.v)){toast('모든 빈칸을 채워 주세요.');return}
+  L.rounds++;let wrong=0;
+  SITS.forEach((s,i)=>{const row=sb.children[i],a=row.querySelector('[data-k=spf]'),b=row.querySelector('[data-k=pa]'),h=row.querySelector('.hint');
+   const oa=s.spf.includes(a.dataset.v),ob=s.pa.includes(b.dataset.v);a.classList.toggle('bad',!oa);a.classList.toggle('good',oa);b.classList.toggle('bad',!ob);b.classList.toggle('good',ob);
+   h.innerHTML=(oa&&ob)?'':`💡 ${s.h}`;wrong+=(!oa)+(!ob)});
+  L.mw+=wrong;const f=m.querySelector('#s1fb');
+  if(wrong){f.className='fb bad';f.innerHTML=`❌ ${wrong}개 칸을 다시 확인하세요. 빨간 칸의 힌트를 읽고 칩을 바꿔 넣어 보세요.`}
+  else{fin=true;f.className='fb good';f.innerHTML='⭕ 모든 상황에 알맞은 지수를 처방했습니다! <span class="c-blue">노출 시간과 자외선 세기</span>에 따라 지수를 고르는 것이 핵심이에요.';
+   complete(1,15-1.5*L.cw-1*L.mw,m)}},'btn blue'))};
+
+/* ===================== Stage 2: 원리 관문 ===================== */
+function principleTable(){return `<div style="overflow-x:auto"><table class="ptab">
+ <tr><th>구분</th><th class="pc">🛡️ 무기자차</th><th class="cc">🔥 유기자차</th></tr>
+ <tr><td>다른 이름</td><td>물리적 차단제, 무기계 차단제,<br><span class="c-blue">자외선 산란제</span></td><td>화학적 차단제, 유기계 차단제,<br><span class="c-sun">자외선 흡수제</span></td></tr>
+ <tr><td>대표 성분</td><td><span class="c-blue">산화 아연(ZnO)</span>, <span class="c-blue">이산화 타이타늄(TiO₂)</span><br><span class="small c-sub">흰색 무기물 분말</span></td><td><span class="c-sun">벤조페논</span>, <span class="c-sun">에틸헥실 메톡시신나메이트</span>, <span class="c-sun">파라아미노안식향산</span><br><span class="small c-sub">탄소를 포함한 유기 화합물</span></td></tr>
+ <tr><td>차단 원리</td><td>피부 위에 보호막을 만들어 자외선을 <span class="c-blue">반사·산란</span></td><td>자외선을 <span class="c-sun">흡수</span>하여 낮은 에너지의 <span class="c-red">열</span>로 바꾸어 방출</td></tr>
+ <tr><td>쉽게 비유하면</td><td>🪞 거울·우산 — 빛을 <span class="c-blue">튕겨 낸다</span></td><td>🧽 스펀지 — 빛을 <span class="c-sun">빨아들인 뒤 열로 내보낸다</span></td></tr>
+ <tr><td>장점</td><td>피부 자극이 적어 <span class="c-green">민감성 피부</span>에 적합, 차단 효과가 오래감</td><td>바른 후 <span class="c-green">투명</span>하고 발림성·사용감이 좋음, 차단 효율이 높음</td></tr>
+ <tr><td>단점</td><td>하얗게 뜨는 <span class="c-red">백탁 현상</span>, 잘 퍼지지 않고 모공을 막기 쉬움</td><td><span class="c-red">접촉성 피부염</span> 등 피부 자극 가능, 꼼꼼한 세안 필요</td></tr>
+ </table></div>
+ <div class="mixbox">🤝 <span class="c-pink">혼합자차</span> = 무기자차 성분 + 유기자차 성분을 함께 넣은 차단제<br>→ <span class="c-blue">반사·산란</span>과 <span class="c-sun">흡수</span>를 함께 이용하여 차단 효율은 높이고, 백탁 현상과 피부 자극 같은 단점은 서로 보완합니다.</div>`}
+const PSTEP={
+ p:['① 자외선(보라색 빛)이 피부를 향해 들어와요.','② 피부 위에 막을 만든 <span class="c-blue">산화 아연(ZnO)·이산화 타이타늄(TiO₂)</span> 입자에 부딪혀요.','③ 거울에 빛이 튕기듯 <span class="c-blue">반사·산란</span>되어 바깥으로 나가요. → 피부에 닿지 않아요!'],
+ c:['① 자외선(보라색 빛)이 피부를 향해 들어와요.','② <span class="c-sun">벤조페논</span> 같은 유기 분자가 자외선 에너지를 <span class="c-sun">흡수</span>해요. (분자가 에너지를 받아 들뜬 상태가 됨)','③ 흡수한 에너지를 낮은 에너지의 <span class="c-red">열</span>로 바꾸어 내보내요. → 피부에 닿지 않아요!'],
+ m:['① 자외선 여러 개가 피부를 향해 들어와요.','② 하나는 무기 입자에 부딪혀 <span class="c-blue">반사·산란</span>, 하나는 유기 분자에 <span class="c-sun">흡수</span>돼요.','③ 두 방법을 함께 써서 <span class="c-pink">차단 효율은 높이고 단점은 보완</span>해요.']};
+const PCARDS=[
+ ['산화 아연(ZnO)','p','비교표의 ‘대표 성분’ 줄을 보세요. 흰색 무기물 분말이에요.'],
+ ['이산화 타이타늄(TiO₂)','p','비교표의 ‘대표 성분’ 줄을 보세요. 흰색 무기물 분말이에요.'],
+ ['벤조페논','c','비교표의 ‘대표 성분’ 줄을 보세요. 유기 화합물이에요.'],
+ ['에틸헥실 메톡시신나메이트','c','비교표의 ‘대표 성분’ 줄을 보세요. 유기 화합물이에요.'],
+ ['자외선을 거울처럼 반사·산란','p','애니메이션에서 자외선이 튕겨 나간 쪽은 어디였나요?'],
+ ['자외선을 흡수해 열로 바꿔 방출','c','애니메이션에서 〰 열이 올라온 쪽은 어디였나요?'],
+ ['하얗게 뜨는 백탁 현상','p','비교표의 ‘단점’ 줄을 확인하세요. 흰색 분말 때문에 생겨요.'],
+ ['피부 자극이 적어 민감성 피부에 적합','p','비교표의 ‘장점’ 줄을 확인하세요.'],
+ ['투명하고 발림성이 좋음','c','비교표의 ‘장점’ 줄을 확인하세요.'],
+ ['접촉성 피부염을 일으킬 수 있음','c','비교표의 ‘단점’ 줄을 확인하세요.']];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function ppanel(k,title,cls){
+ const layer=k==='p'?'<div class="pt">ZnO</div><div class="pt">TiO₂</div>'.repeat(3):k==='c'?'<div class="mol">⬡</div>'.repeat(5):'<div class="pt">ZnO</div><div class="mol">⬡</div><div class="pt">TiO₂</div><div class="mol">⬡</div><div class="pt">ZnO</div><div class="mol">⬡</div>';
+ return `<div class="pbox" id="pb_${k}"><div class="pp" id="pp_${k}"><div class="cap ${cls}">${title}</div><div class="layer">${layer}</div><div class="skin">피부</div></div>
+ <div class="pcap" id="pc_${k}">▶ 버튼을 눌러 자외선을 쏘아 보세요.</div>
+ <ol class="steps">${PSTEP[k].map(s=>`<li>${s}</li>`).join('')}</ol></div>`}
+async function shoot(k,btnEl,onEnd){
+ btnEl.disabled=true;const pp=document.getElementById('pp_'+k),cap=document.getElementById('pc_'+k),lis=document.querySelectorAll(`#pb_${k} .steps li`);
+ pp.querySelectorAll('.uvp,.hw,.ptag').forEach(e=>e.remove());lis.forEach(l=>l.classList.remove('on'));
+ const mk=(left)=>{const d=div('uvp');d.style.left=left+'%';d.style.top='-20px';pp.appendChild(d);return d};
+ const step=i=>{lis.forEach((l,j)=>l.classList.toggle('on',j===i));cap.innerHTML=PSTEP[k][i]};
+ const photons=k==='m'?[mk(16),mk(68)]:[mk(45)];
+ step(0);await sleep(60);photons.forEach(p=>{p.style.opacity=1;p.style.top='140px'});await sleep(1300);
+ step(1);
+ const tag=(t,l,c)=>{const g=div('ptag',t);g.style.left=l+'%';g.style.color=c;pp.appendChild(g);return g};
+ const reflect=p=>{const pt=pp.querySelectorAll('.pt');pt.forEach(x=>x.classList.add('hit'));const l0=parseFloat(p.style.left);tag('↗ 반사·산란!',l0+4,'#1f6fd6');p.style.transition='top 1.6s ease-out,left 1.6s ease-out';p.style.top='38px';p.style.left=(l0+28)+'%';setTimeout(()=>pt.forEach(x=>x.classList.remove('hit')),900)};
+ const absorb=p=>{const ml=pp.querySelectorAll('.mol');ml.forEach(x=>x.classList.add('on'));tag('흡수!',parseFloat(p.style.left)-2,'#f07f00');p.style.transition='all .6s';p.style.opacity=0;p.style.transform='scale(.2)'};
+ if(k==='p')reflect(photons[0]);else if(k==='c')absorb(photons[0]);else{reflect(photons[0]);absorb(photons[1])}
+ await sleep(1500);step(2);
+ if(k!=='p'){const x=k==='c'?45:68;for(let i=0;i<3;i++){const h=div('hw','〰<br>열');h.style.left=(x-14+i*13)+'%';h.style.top='130px';pp.appendChild(h);await sleep(60);h.style.top='40px';h.style.opacity=0}}
+ await sleep(2200);pp.querySelectorAll('.uvp').forEach(e=>e.style.opacity=0);pp.querySelectorAll('.mol').forEach(x=>x.classList.remove('on'));
+ btnEl.disabled=false;btnEl.innerHTML='🔁 다시 쏘기';onEnd&&onEnd()}
+R[2]=function(m){
+ const L=startRun(2);L.sw=0;L.cw=0;const watched=new Set();let sortOK=false,mq=0;
+ m.innerHTML=`${retryNote(2)}<div class="card"><h2>🔬 Stage 2 · 원리 관문</h2>
+ <p class="lead">미션: 실험을 설계하기 전에 <span class="c-blue">무기자차</span>, <span class="c-sun">유기자차</span>, <span class="c-pink">혼합자차</span>가 자외선을 막는 원리를 확대 관찰하라!</p>
+ <div class="tip">🔍 세 가지 확대 화면에서 각각 <span class="c-uv">▶ 자외선 쏘기</span>를 눌러 보세요. 단계별 설명이 순서대로 켜집니다. 세 화면을 모두 관찰해야 다음 미션이 열려요.</div></div>
+ <div class="card"><h3>① 확대 관찰: 자외선은 어떻게 막힐까?</h3><div class="pgrid">
+  ${ppanel('p','🛡️ 무기자차 (물리적)','c-blue')}${ppanel('c','🔥 유기자차 (화학적)','c-sun')}${ppanel('m','🤝 혼합자차','c-pink')}</div>
+  <div class="pgrid" id="pbtns"></div></div>
+ <div class="card"><h3>② 한눈에 비교하기: 대표 성분과 원리</h3>${principleTable()}</div>
+ <div class="card hidden" id="srt"><h3>③ 특징 카드 분류하기</h3>
+  <p class="small">위의 <span class="c-blue">비교표</span>와 <span class="c-uv">애니메이션</span>을 보면서 카드를 알맞은 상자로 옮기세요. <span class="c-blue">드래그</span>하거나 <span class="c-blue">카드를 누른 뒤 상자</span>를 누르면 됩니다. 틀린 카드는 힌트와 함께 위로 돌아와요.</p>
+  <div class="pool" id="pool"></div><div class="sortwrap"><div class="col phys" data-c="p"><div class="ch">🛡️ 무기자차 (반사·산란)</div></div><div class="col chem" data-c="c"><div class="ch">🔥 유기자차 (흡수 → 열)</div></div></div><div class="fb" id="sfb"></div></div>
+ <div class="card hidden" id="pq"><h3>④ 원리 확인 퀴즈</h3></div>`;
+ const pb=m.querySelector('#pbtns');
+ [['p','btn blue sm'],['c','btn sm'],['m','btn sm']].forEach(([k,c])=>{const w=div('',''),b=btn('▶ 자외선 쏘기',()=>shoot(k,b,()=>{watched.add(k);
+   if(watched.size===3&&m.querySelector('#srt').classList.contains('hidden')){m.querySelector('#srt').classList.remove('hidden');toast('🔓 세 가지 원리를 모두 관찰했어요! 아래 비교표를 읽고 카드 분류 미션에 도전하세요.')}}),c);
+  if(k==='m')b.style.background='var(--pink)';w.style.textAlign='center';w.appendChild(b);pb.appendChild(w)});
+ const pool=m.querySelector('#pool');let sel=null;
+ shuffle(PCARDS).forEach(([t,c,h])=>{const d=div('ccard',t);d.dataset.c=c;d.dataset.h=h;d.draggable=true;d.ondragstart=e=>{sel=d;e.dataTransfer.setData('text/plain','x')};
+  d.onclick=e=>{e.stopPropagation();if(sortOK)return;if(sel===d){sel=null;d.classList.remove('sel');return}m.querySelectorAll('.ccard').forEach(x=>x.classList.remove('sel'));sel=d;d.classList.add('sel')};pool.appendChild(d)});
+ [pool,...m.querySelectorAll('.col')].forEach(z=>{z.ondragover=e=>e.preventDefault();const mv=()=>{if(!sel||sortOK)return;sel.classList.remove('sel','bad');z.appendChild(sel);sel=null};z.ondrop=e=>{e.preventDefault();mv()};z.onclick=mv});
+ const pq=m.querySelector('#pq');
+ const sb=btn('✅ 분류 확인하기',()=>{if(sortOK)return;if(pool.querySelectorAll('.ccard').length){toast('모든 카드를 분류하세요.');return}
+  const bad=[];m.querySelectorAll('.col .ccard').forEach(c=>{if(c.dataset.c!==c.parentElement.dataset.c){c.classList.add('bad');bad.push(c);pool.appendChild(c)}});
+  L.sw+=bad.length;const f=m.querySelector('#sfb');
+  if(bad.length){f.className='fb bad';f.innerHTML=`❌ ${bad.length}장의 카드가 잘못 분류되어 위로 돌아갔어요.`+bad.map(c=>`<span class="tip2">· ‘${c.textContent}’ — ${c.dataset.h}</span>`).join('')}
+  else{sortOK=true;sb.disabled=true;f.className='fb good';f.innerHTML='⭕ 완벽해요! 무기자차는 <span class="c-blue">무기물 입자의 반사·산란</span>, 유기자차는 <span class="c-sun">유기 화합물의 흡수 → 열 방출</span>을 이용합니다.';pq.classList.remove('hidden');pq.scrollIntoView({behavior:'smooth'})}},'btn blue');
+ m.querySelector('#srt').insertBefore(sb,m.querySelector('#sfb'));
+ const nx=()=>{mq++;if(mq===3)complete(2,15-1*L.sw-1.5*L.cw,m)};const w=()=>L.cw++;
+ mcq(pq,{q:'Q1. 유기자차 성분(벤조페논 등)이 흡수한 자외선 에너지는 어떻게 될까?',opts:['다시 반사되어 밖으로 나간다','낮은 에너지의 열로 바뀌어 방출된다','피부 속으로 그대로 전달된다','보라색 빛으로 바뀌어 저장된다'],ans:1,
+  fb:{0:'반사·산란은 무기자차의 원리예요.',2:'피부로 전달된다면 자외선을 막지 못한 거예요.',3:'애니메이션에서 분자가 빛난 뒤 무엇이 올라왔는지 떠올려 보세요.'},exp:'유기자차는 자외선을 흡수한 뒤 낮은 에너지의 열로 바꾸어 내보냅니다.',onDone:nx,onWrong:w});
+ mcq(pq,{q:'Q2. 혼합자차에 대한 설명으로 옳은 것은?',opts:['무기·유기 성분을 함께 넣어 반사·산란과 흡수를 모두 이용한다','로션과 선크림을 섞은 제품이다','자외선을 증폭시켜 피부를 보호한다','무기자차보다 항상 백탁이 심하다'],ans:0,
+  fb:{1:'혼합자차는 차단 ‘성분’을 섞은 제품이에요.',2:'자외선 차단제는 자외선을 줄이는 제품이에요.',3:'유기 성분이 함께 들어 있어 오히려 백탁을 줄일 수 있어요.'},exp:'두 원리를 함께 써서 서로의 단점을 보완합니다.',onDone:nx,onWrong:w});
+ mcq(pq,{q:'Q3. 피부가 예민해 자극이 적은 제품이 필요한 친구에게 알맞은 차단제와 이유는?',opts:['무기자차 — 피부 위에서 자외선을 반사·산란하며 자극이 적다','유기자차 — 자외선을 흡수하므로 피부 자극이 전혀 없다','보습 로션 — 자극이 없고 자외선도 막는다','어떤 차단제든 피부 자극은 똑같다'],ans:0,
+  fb:{1:'유기자차는 접촉성 피부염 등 피부 자극을 일으킬 수 있어요(비교표 단점 줄).',2:'보습 로션에는 자외선 차단 성분이 없어요.',3:'비교표의 장점·단점 줄을 다시 비교해 보세요.'},exp:'무기자차는 피부 자극 요인이 적어 민감성 피부에 적합합니다.',onDone:nx,onWrong:w})};
+
+/* ===================== Stage 3: 설계 관문 ===================== */
+const FL={type:'제품 종류',spf:'SPF 지수',amount:'바르는 양',mech:'차단 원리'};
+const OPT={amount:['적음','중간','많음'],spf:['30','40','50'],mech:['무기','유기','혼합']};
+function rowsDef(){return[
+ {id:'A',t:'기본 비교',goal:'로션과 선크림의 차단 효과 비교',ind:'type',wells:[{type:'없음',lab:'아무것도 안 바름<br>(대조군)',ed:[]},{type:'로션',lab:'보습 로션',ed:['amount']},{type:'선크림',spf:'50',mech:'유기',lab:'선크림<br>SPF 50',ed:['amount']}]},
+ {id:'B',t:'지수별',goal:'SPF 30·40·50의 차단 효과 비교',ind:'spf',wells:['30','40','50'].map(s=>({type:'선크림',spf:s,lab:'선크림<br>SPF '+s,ed:['amount','mech']}))},
+ {id:'C',t:'양별',goal:'바르는 양에 따른 차단 효과 비교',ind:'amount',wells:['적음','중간','많음'].map(a=>({type:'선크림',amount:a,lab:'선크림<br>양: '+a,ed:['spf','mech']}))},
+ {id:'D',t:'차단 원리별',goal:'무기자차·유기자차·혼합자차 비교',ind:'mech',wells:['무기','유기','혼합'].map(x=>({type:'선크림',mech:x,lab:x+'자차',ed:['spf','amount']}))}]}
+R[3]=function(m){
+ const L=startRun(3);L.err=0;L.cw=0;let doneRows=0,common=false;ST.setup={};
+ m.innerHTML=`${retryNote(3)}<div class="card"><h2>🧪 Stage 3 · 설계 관문</h2>
+ <p class="lead">미션: OHP 필름 위 <span class="c-sun">12개의 동그라미 구역</span>(4가지 실험 × 3구역)에 올릴 시료를 설계하라!</p>
+ <div class="tip">📌 <span class="c-sun">독립변인</span>: 결과에 미치는 영향을 알아보기 위해 <span class="c-sun">일부러 다르게</span> 하는 조건<br>📌 <span class="c-blue">통제변인</span>: 공정한 비교를 위해 모든 구역에서 <span class="c-blue">똑같이 유지</span>하는 조건<br>Stage 2에서 배운 차단 원리를 떠올리며, 각 실험에서 독립변인을 고르고, 나머지 조건(통제변인)을 세 구역 모두 같게 맞춘 뒤 <span class="c-uv">레버</span>를 당기세요.</div></div>
+ <div class="card" id="cm"><h3>① 공통 실험 조건</h3></div><div id="rows"></div>`;
+ const tryDone=()=>{if(doneRows===4&&common)complete(3,20-2*L.err-1.5*L.cw,m)};
+ mcq(m.querySelector('#cm'),{q:'12개 구역 전체에서 <span class="c-blue">반드시 같게 유지</span>해야 하는 조건을 모두 고르시오.',multi:true,
+  opts:['자외선 램프와 필름 사이의 거리','자외선 조사 시간','같은 종류의 시광 스티커 사용','구역마다 다른 두께의 OHP 필름 사용','구역마다 램프를 켜는 시간을 다르게 하기'],ans:[0,1,2],
+  fb:'거리·시간·스티커처럼 실험 장치에 관한 조건이 구역마다 다르면, 변색 차이가 선크림 때문인지 알 수 없어요.',exp:'실험 장치 조건은 모두 통제변인입니다.',onWrong:()=>L.cw++,onDone:()=>{common=true;tryDone()}});
+ const rb=m.querySelector('#rows');
+ rowsDef().forEach(r=>{const c=div('card row-card',`<h3>실험 ${r.id} · ${r.t} 실험 <span class="c-sub small">— ${r.goal}</span></h3>
+  <div class="indsel">이 실험의 <span class="c-sun">독립변인</span>: <select class="ind"><option value="">선택하세요</option>${Object.keys(FL).map(k=>`<option value="${k}">${FL[k]}</option>`).join('')}</select></div>
+  <div class="wells">${r.wells.map((w,wi)=>`<div class="well"><div class="wdot"></div><div class="wlab">${w.lab}</div>${w.ed.map(f=>`<label>${FL[f]}<select data-w="${wi}" data-f="${f}"><option value="">선택</option>${OPT[f].map(o=>`<option>${o}</option>`).join('')}</select></label>`).join('')}${w.ed.length?'':'<div class="c-sub small">추가 설정 없음</div>'}</div>`).join('')}</div>
+  <div class="fb"></div>`);
+  const fb=c.querySelector('.fb');let ok=false;
+  const b=btn('🎚️ 레버 당기기 (설계 확인)',()=>{if(ok)return;const errs=[];const ind=c.querySelector('.ind').value;
+   if(!ind)errs.push('독립변인을 선택하세요.');else if(ind!==r.ind)errs.push(`독립변인이 올바르지 않아요. 세 구역에서 <span class="c-sun">이미 서로 다르게 정해진 조건</span>이 무엇인지 확인하세요.`);
+   const sels=[...c.querySelectorAll('select[data-f]')];
+   if(sels.some(s=>!s.value))errs.push('모든 구역의 조건을 선택하세요.');
+   else{const by={};sels.forEach(s=>(by[s.dataset.f]=by[s.dataset.f]||[]).push(s.value));
+    for(const f in by)if(new Set(by[f]).size>1)errs.push(`<span class="c-blue">${FL[f]}</span>이(가) 구역마다 달라요. 통제변인은 세 구역 모두 같아야 공정한 비교가 됩니다.`)}
+   if(errs.length){L.err++;fb.className='fb bad';fb.innerHTML='❌ 레버가 움직이지 않아요!<br>'+errs.map(e=>'· '+e).join('<br>');return}
+   ok=true;ST.setup[r.id]=r.wells.map((w,wi)=>{const o=Object.assign({},w);sels.filter(s=>+s.dataset.w===wi).forEach(s=>o[s.dataset.f]=s.value);return o});
+   c.querySelectorAll('select').forEach(s=>s.disabled=true);c.classList.add('done');b.disabled=true;
+   fb.className='fb good';fb.innerHTML=`⭕ 설계 완료! 독립변인 <span class="c-sun">${FL[r.ind]}</span>만 다르게 하고 나머지는 같게 통제했습니다.`;
+   doneRows++;tryDone()},'btn uv');
+  c.insertBefore(b,fb);rb.appendChild(c)})};
+
+/* ===================== Stage 4: 실험 관문 ===================== */
+const MIDS={1:.05,2:.15,3:.32,4:.6,5:.9};
+function lv(T){return T>=.8?5:T>=.45?4:T>=.2?3:T>=.1?2:1}
+function calcT(w){if(w.type==='없음')return 1;if(w.type==='로션')return .75;
+ const base={'30':.22,'40':.16,'50':.09}[w.spf],am={'적음':4,'중간':1,'많음':.5}[w.amount],me={'무기':1.08,'유기':1,'혼합':.75}[w.mech];return Math.min(1,base*am*me)}
+function purple(T){const a=[253,250,242],b=[94,23,160],k=Math.pow(Math.min(1,T),.75);return `rgb(${a.map((v,i)=>Math.round(v+(b[i]-v)*k)).join(',')})`}
+function runExp(){const res={};
+ ['A','B','C','D'].forEach(id=>res[id]=ST.setup[id].map(w=>{let T=calcT(w)+(Math.random()-.5)*.04;T=Math.max(.02,Math.min(1,T));return Object.assign({},w,{T,anom:false})}));
+ res.A[0].T=1;const b=res.B;b[1].T=Math.min(1,Math.max(b[1].T*3,b[0].T*1.7));b[1].anom=true;
+ Object.values(res).forEach(r=>r.forEach(w=>w.lv=lv(w.T)));
+ if(b[1].lv<=b[0].lv&&b[0].lv<5){b[1].lv=b[0].lv+1;b[1].T=MIDS[b[1].lv]}
+ return res}
+const RN={A:'기본 비교',B:'지수별',C:'양별',D:'원리별'};
+function wname(w,id){return id==='A'?(w.type==='없음'?'대조군':w.type==='로션'?'로션':'선크림'):id==='B'?'SPF '+w.spf:id==='C'?'양 '+w.amount:w.mech+'자차'}
+R[4]=function(m){
+ const L=startRun(4);L.err=0;L.checks=0;ST.pred={};ST.rec={};const res=runExp();
+ m.innerHTML=`${retryNote(4)}<div class="card"><h2>💡 Stage 4 · 실험 관문</h2>
+ <p class="lead">미션: Stage 3에서 설계한 필름에 <span class="c-uv">자외선 램프</span>를 비추고, <span class="c-uv">시광 스티커</span>의 변색을 관찰·기록하라!</p>
+ <div class="tip">🔬 시광 스티커는 자외선을 받으면 <span class="c-uv">보라색</span>으로 변합니다. 차단 효과가 클수록 스티커가 <span class="c-green">하얗게 유지</span>되고, 자외선이 많이 투과할수록 <span class="c-uv">진한 보라색</span>이 됩니다.</div></div>
+ <div class="card" id="pr"><h3>① 가설 세우기: 각 실험에서 가장 하얗게 유지될 구역은?</h3><div id="prs"></div></div>
+ <div class="card"><h3>② 자외선 램프 조사 (15초)</h3>
+  <div class="lab" id="lab"><div class="lamp" id="lamp">UV LAMP · OFF</div><div class="rays"></div>
+  <div class="film">${['A','B','C','D'].map(id=>`<div class="frow"><div class="rl">실험 ${id}<br>${RN[id]}</div>${res[id].map((w,wi)=>`<div class="cell"><div class="stk" id="k${id}${wi}"><div class="patch"></div></div>${wname(w,id)}</div>`).join('')}</div>`).join('')}</div>
+  <div class="count" id="cnt">램프를 켤 준비가 되었습니다.</div></div><div id="lampBtn"></div></div>
+ <div class="card hidden" id="rc"><h3>③ 데이터 기록장: 스티커 색을 범례와 비교해 단계를 기록하세요</h3>
+  <div class="legend">범례: ${[1,2,3,4,5].map(i=>`<span class="sw ${i>=4?'dark':''}" style="background:${purple(MIDS[i])}">${i}</span>`).join('')} <span class="c-sub">(1 하얀색 → 5 진한 보라색)</span></div>
+  <div id="recs"></div><div class="fb" id="rfb"></div><div id="rtable"></div></div>`;
+ const prs=m.querySelector('#prs');
+ ['A','B','C','D'].forEach(id=>{const d=div('q',`<div class="qt">실험 ${id} (${RN[id]})</div><div class="opts" style="flex-direction:row;flex-wrap:wrap"></div>`);
+  res[id].forEach((w,wi)=>{const b=btn(wname(w,id),()=>{ST.pred[id]=wi;d.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));checkPred()},'opt');d.querySelector('.opts').appendChild(b)});prs.appendChild(d)});
+ const lb=btn('🔦 자외선 램프 켜기',()=>{lb.disabled=true;
+  const lab=m.querySelector('#lab'),lamp=m.querySelector('#lamp'),cnt=m.querySelector('#cnt');lab.classList.add('on');lamp.classList.add('on');lamp.textContent='UV LAMP · ON';
+  m.querySelectorAll('.prs .opt, #prs .opt').forEach(x=>x.disabled=true);
+  ['A','B','C','D'].forEach(id=>res[id].forEach((w,wi)=>{const k=m.querySelector('#k'+id+wi);
+   if(w.anom){k.style.backgroundColor=purple(Math.max(.05,res.B[0].T*.9));k.querySelector('.patch').style.opacity=1}else k.style.backgroundColor=purple(w.T)}));
+  let t=15;cnt.textContent=`자외선 조사 중... ${t}초`;const iv=setInterval(()=>{t--;cnt.textContent=t>0?`자외선 조사 중... ${t}초`:'✅ 조사 완료! 램프를 끄고 결과를 관찰하세요.';
+   if(t<=0){clearInterval(iv);lab.classList.remove('on');lamp.classList.remove('on');lamp.textContent='UV LAMP · OFF';showRec()}},1000)},'btn uv');
+ lb.disabled=true;m.querySelector('#lampBtn').appendChild(lb);
+ function checkPred(){if(Object.keys(ST.pred).length===4){lb.disabled=false;toast('가설 완료! 이제 램프를 켤 수 있어요.')}}
+ function showRec(){const rc=m.querySelector('#rc');rc.classList.remove('hidden');rc.scrollIntoView({behavior:'smooth'});
+  const rs=m.querySelector('#recs');['A','B','C','D'].forEach(id=>{ST.rec[id]=[null,null,null];
+   const d=div('',`<div class="small c-blue">실험 ${id} · ${RN[id]}</div>`);const g=div('rec');
+   res[id].forEach((w,wi)=>{const bx=div('rbox',`<div class="small">${wname(w,id)}</div><div class="sws"></div>`);
+    [1,2,3,4,5].forEach(i=>{const s=div('sw'+(i>=4?' dark':''),i);s.style.background=purple(MIDS[i]);s.onclick=()=>{ST.rec[id][wi]=i;bx.querySelectorAll('.sw').forEach(x=>x.classList.toggle('sel',x===s));bx.classList.remove('bad')};bx.querySelector('.sws').appendChild(s)});g.appendChild(bx)});
+   d.appendChild(g);rs.appendChild(d)});
+  let fin=false;rc.insertBefore(btn('📋 기록 제출하기',()=>{if(fin)return;
+   if(['A','B','C','D'].some(id=>ST.rec[id].includes(null))){toast('12개 구역을 모두 기록하세요.');return}
+   L.checks++;let wrong=0;const boxes=rs.querySelectorAll('.rbox');let idx=0;
+   ['A','B','C','D'].forEach(id=>res[id].forEach((w,wi)=>{const bad=Math.abs(ST.rec[id][wi]-w.lv)>1;boxes[idx++].classList.toggle('bad',bad);wrong+=bad}));
+   L.err+=wrong;const f=m.querySelector('#rfb');
+   if(wrong){f.className='fb bad';f.innerHTML=`❌ ${wrong}개 구역의 기록이 실제 색과 많이 달라요. 빨간 칸의 스티커를 위 실험 화면에서 다시 관찰하고 범례와 비교해 보세요.`;return}
+   fin=true;ST.res=res;let pm=0;['A','B','C','D'].forEach(id=>{const mn=Math.min(...res[id].map(w=>w.T));if(res[id][ST.pred[id]].T-mn<.03)pm++});L.pm=pm;
+   f.className='fb good';f.innerHTML='⭕ 관찰 기록 완료! 아래는 스티커 색 분석기로 측정한 <span class="c-uv">추정 자외선 투과율</span>입니다.';
+   m.querySelector('#rtable').innerHTML=`<table><tr><th>실험</th><th>구역</th><th>나의 기록(단계)</th><th>추정 투과율</th></tr>${['A','B','C','D'].map(id=>res[id].map((w,wi)=>`<tr><td>${id} ${RN[id]}</td><td>${wname(w,id)}${w.anom?' <span class="c-red">⚠</span>':''}</td><td>${ST.rec[id][wi]}</td><td>${Math.round(w.T*100)}%</td></tr>`).join('')).join('')}</table>`;
+   complete(4,15-1*L.err,m)},'btn blue'),m.querySelector('#rfb'))}};
+
+/* ===================== Stage 5: 분석 관문 ===================== */
+R[5]=function(m){
+ const L=startRun(5);L.mw=0;const res=ST.res;let mq=0,wr=null;
+ const cols={A:'#f0a33c',B:'#7b3fe4',C:'#1f6fd6',D:'#13935c'};
+ let bars='',x=40;['A','B','C','D'].forEach(id=>{res[id].forEach((w,wi)=>{const h=w.T*170;bars+=`<rect x="${x}" y="${200-h}" width="30" height="${h}" rx="4" fill="${cols[id]}" ${w.anom?'stroke="#d9443a" stroke-width="3"':''}/><text x="${x+15}" y="${195-h}" font-size="11" text-anchor="middle" fill="#3b4150">${Math.round(w.T*100)}</text><text x="${x+15}" y="216" font-size="10" text-anchor="middle" fill="#3b4150">${wname(w,id).replace('자차','')}</text>`;x+=36});
+  bars+=`<text x="${x-72}" y="236" font-size="12" text-anchor="middle" fill="${cols[id]}">실험 ${id}</text>`;x+=20});
+ const cmp=['A','B','C','D'].map(id=>{const mn=res[id].reduce((a,w,i)=>w.T<res[id][a].T?i:a,0);const same=res[id][ST.pred[id]].T-res[id][mn].T<.03;
+  return `<tr><td>${id} ${RN[id]}</td><td>${wname(res[id][ST.pred[id]],id)}</td><td>${wname(res[id][mn],id)}</td><td class="${same?'c-green':'c-red'}">${same?'일치':'불일치'}</td></tr>`}).join('');
+ m.innerHTML=`${retryNote(5)}<div class="card"><h2>📊 Stage 5 · 분석 관문</h2>
+ <p class="lead">미션: 실험 결과를 그래프로 해석하고, <span class="c-red">예상과 다른 결과(오차)</span>의 원인을 찾아라!</p>
+ <svg viewBox="0 0 ${x} 245" style="width:100%;max-height:300px"><line x1="30" y1="200" x2="${x}" y2="200" stroke="#bbb"/><text x="4" y="20" font-size="11" fill="#7a8090">투과율(%)</text>${bars}</svg>
+ <p class="small c-sub">막대가 높을수록 자외선이 많이 투과(스티커가 진하게 변색)한 것입니다. <span class="c-red">빨간 테두리</span>는 예상과 다른 결과가 나온 구역입니다.</p>
+ <h3>🔍 가설(예상) vs 실제 결과</h3><table><tr><th>실험</th><th>내가 예상한 가장 하얀 구역</th><th>실제 가장 하얀 구역</th><th>비교</th></tr>${cmp}</table></div>
+ <div class="card" id="aq"><h3>① 결과 해석 및 오차 분석</h3></div><div class="card hidden" id="aw"><h3>② 실험 개선 방안</h3></div>`;
+ const aq=m.querySelector('#aq'),aw=m.querySelector('#aw');
+ const nx=()=>{mq++;if(mq===4){aw.classList.remove('hidden');aw.scrollIntoView({behavior:'smooth'})}};
+ const w=()=>L.mw++;
+ mcq(aq,{q:'Q1. 양별 실험(C)에서 <span class="c-uv">‘적음’ 구역</span>이 가장 진하게 변색된 이유는?',opts:['적음 구역만 SPF 지수가 낮았기 때문','바른 양이 권장량(2 mg/cm²)보다 적어 차단막이 얇아지고 자외선이 더 많이 투과했기 때문','선크림을 적게 바르면 자외선을 열로 바꾸기 때문','적음 구역만 램프를 더 오래 비췄기 때문'],ans:1,
+  fb:{0:'설계 관문에서 SPF는 세 구역 모두 같게 통제했어요.',2:'열로 바꾸는 것은 유기자차의 작용 원리이지, 양이 적은 것과는 관계없어요.',3:'조사 시간은 모든 구역에서 같은 통제변인이었어요.'},exp:'표시된 SPF는 정량을 발랐을 때의 값이므로, 적게 바르면 실제 차단 효과가 크게 떨어집니다.',onDone:nx,onWrong:w});
+ mcq(aq,{q:'Q2. 기본 비교 실험(A)에서 <span class="c-blue">로션 구역</span>이 대조군과 비슷하게 진하게 변색된 까닭은?',opts:['로션에는 자외선 차단 성분이 거의 없어 자외선 대부분이 투과하기 때문','로션은 UVB만 완벽하게 차단하기 때문','대조군에도 선크림을 발랐기 때문','로션의 색소가 스티커를 보라색으로 물들였기 때문'],ans:0,
+  fb:{1:'로션이 자외선을 완벽히 차단했다면 스티커가 하얗게 유지되었을 거예요.',2:'대조군은 아무것도 바르지 않은 구역이에요.',3:'스티커의 보라색은 자외선과 반응해서 나타나는 색이에요.'},exp:'보습 로션은 자외선 차단제가 아니므로 차단 효과를 기대할 수 없습니다.',onDone:nx,onWrong:w});
+ mcq(aq,{q:'Q3. 지수별 실험(B)에서 <span class="c-red">SPF 40 구역이 SPF 30보다 진하게</span> 변색되었다. 오차 원인으로 적절한 것을 <span class="c-sun">모두</span> 고르시오.',multi:true,
+  opts:['선크림을 고르게 펴 바르지 않아 얇거나 빈 부분이 생겼다','램프 빛이 필름 중앙과 가장자리에 서로 다른 세기로 닿았다','SPF가 높을수록 원래 차단 효과가 약하다','스티커마다 자외선 감도에 약간의 차이가 있었다','OHP 필름이 자외선을 증폭시켰다'],ans:[0,1,3],
+  fb:'SPF가 높을수록 UVB 차단 효과는 커지는 것이 원리예요. 이론과 다른 결과는 ‘실험 과정’의 문제(바르는 두께, 빛의 세기, 스티커 차이)에서 찾아야 합니다.',exp:'스티커 위 얼룩진 무늬는 선크림이 고르게 발리지 않았다는 증거입니다.',onDone:nx,onWrong:w});
+ mcq(aq,{q:'Q4. 차단 원리별 실험(D)에서 SPF와 양이 같은 무기·유기·혼합자차의 결과가 비슷했다. 올바른 해석은?',opts:['차단 원리는 달라도 같은 SPF·같은 양이면 차단 효과는 비슷하다','무기자차는 자외선을 전혀 막지 못한다','세 제품의 차단 원리가 모두 같기 때문이다','유기자차가 항상 2배 이상 강하다'],ans:0,
+  fb:{1:'무기자차 구역도 스티커가 하얗게 유지되었어요.',2:'무기자차는 반사·산란, 유기자차는 흡수라는 서로 다른 원리를 이용해요.',3:'실험 결과 그런 큰 차이는 나타나지 않았어요.'},exp:'차이는 ‘효과의 크기’보다 ‘작동 원리와 사용감’에 있습니다. (Stage 2 원리 관문 비교표 참고)',onDone:nx,onWrong:w});
+ writer(aw,{key:'s4',q:'SPF 40 구역처럼 예상과 다른 결과(오차)를 줄이려면 실험을 어떻게 개선해야 할까요? <span class="c-sun">2가지 이상</span> 쓰시오.',min:30,need:2,
+  groups:[{n:'반복 실험과 평균',kw:['반복','여러 번','평균','재실험','다시 실험'],hint:'한 번의 결과만 믿지 않으려면 어떻게 해야 할까요?'},
+   {n:'고르게 펴 바르기',kw:['고르게','균일','일정한 두께','펴 바','펴서','골고루'],hint:'스티커에 생긴 얼룩 무늬의 원인을 떠올려 보세요.'},
+   {n:'정확한 양 측정',kw:['저울','측정','정량','같은 양','스포이트','계량','무게'],hint:'구역마다 바르는 양을 정확히 같게 하는 도구를 떠올려 보세요.'},
+   {n:'램프 조건 통제',kw:['거리','위치','각도','중앙','빛의 세기'],hint:'램프 빛이 모든 구역에 똑같이 닿도록 하는 방법을 생각해 보세요.'}],
+  onSubmit:(r)=>{wr=r;if(!aw.querySelector('.fin')){const b=btn('📊 분석 완료하기',()=>{b.disabled=true;complete(5,Math.max(2,10-2*L.mw)+5*wr,m)},'btn green fin');aw.appendChild(b)}}})};
+
+/* ===================== Stage 6: 최종 관문 ===================== */
+const RXF=[['kind','차단제 종류',[['무기','무기자차(물리적)'],['유기','유기자차(화학적)'],['혼합','혼합자차']]],['spf','SPF',[['15','SPF 15'],['30','SPF 30'],['50+','SPF 50+']]],['pa','PA',[['+','PA+'],['++','PA++'],['+++','PA+++'],['++++','PA++++']]],
+ ['amt','바르는 양',[['적게','적게(콩알만큼)'],['정량','정량(2 mg/cm², 얼굴 기준 약 500원 동전 크기)'],['두껍게','아주 두껍게(정량의 3배 이상)']]],['re','덧바르기',[['0','덧바르지 않음'],['1','외출 전 1회 (필요하면 덧바름)'],['2~3','2~3시간마다 덧바름']]],['wp','내수성',[['no','필요 없음'],['wp','워터프루프(내수성) 필요']]]];
+const CHR=[
+ {name:'민준 (고2, 축구부)',emo:'⚽',desc:'방과 후 매일 <span class="c-sun">2~3시간 운동장 훈련</span>, 땀을 많이 흘림. <span class="c-red">민감성 피부</span>라 일부 화학 성분 차단제를 바르면 따갑고 붉어짐.',
+  ok:{kind:['무기'],spf:['50+'],pa:['+++','++++'],amt:['정량'],re:['2~3'],wp:['wp']},
+  why:{kind:'원리 관문 비교표의 장점·단점 줄을 보세요. 민감성 피부에 자극이 적은 차단제는 무엇이었나요?',spf:'한낮 2~3시간 야외 운동은 UVB 노출이 매우 커요.',pa:'장시간 야외 활동에는 UVA 차단 등급도 높아야 해요.',amt:'양별 실험에서 확인했듯 적게 바르면 지수만큼 차단되지 않고, 너무 두꺼우면 밀림·모공 막힘이 생겨요.',re:'땀과 마찰로 차단막이 지워지므로 주기적으로 덧발라야 해요.',wp:'땀을 많이 흘리는 활동이에요.'}},
+ {name:'서연 (고2, 도서관파)',emo:'📚',desc:'주로 <span class="c-blue">실내(교실·도서관·학원)</span>에서 생활, 등하굣길 도보 10분. <span class="c-blue">지성 피부</span>이고 하얗게 뜨는 <span class="c-blue">백탁 현상을 싫어함</span>.',
+  ok:{kind:['유기','혼합'],spf:['15','30'],pa:['+','++'],amt:['정량'],re:['1','2~3'],wp:['no']},
+  why:{kind:'백탁 현상은 어떤 차단제의 단점이었나요? 투명하고 발림성이 좋은 성분이 들어 있는 제품을 골라 보세요.',spf:'실내 생활과 짧은 외출에는 지나치게 높은 지수가 필요하지 않아요.',pa:'자외선 노출이 적은 생활이라 중간 이하 등급으로 충분해요.',amt:'지수가 낮아도 정량을 발라야 표시된 효과가 나타나요.',re:'바르지 않거나 덧바르지 않으면 짧은 외출에도 자외선에 노출돼요.',wp:'땀이나 물놀이가 거의 없는 생활이에요.'}},
+ {name:'지훈 (고2, 해변 봉사단)',emo:'🏖️',desc:'주말마다 <span class="c-sun">한낮 해변 정화 봉사</span> 후 <span class="c-blue">바다 수영</span>. 피부 고민은 없지만 <span class="c-red">쉽게 타고 화상</span>을 자주 입음.',
+  ok:{kind:['무기','유기','혼합'],spf:['50+'],pa:['+++','++++'],amt:['정량'],re:['2~3'],wp:['wp']},
+  why:{kind:'',spf:'강한 햇빛과 물의 반사로 UVB 노출이 매우 커요. 화상을 자주 입는다는 점도 고려하세요.',pa:'장시간 해변 활동에는 UVA 차단 등급도 높아야 해요.',amt:'양별 실험에서 확인했듯 적게 바르면 지수만큼 차단되지 않고, 너무 두꺼우면 밀림·모공 막힘이 생겨요.',re:'물과 땀, 수건 마찰로 차단막이 지워져요.',wp:'수영을 하므로 물에 잘 지워지지 않아야 해요.'}}];
+R[6]=function(m){
+ const L=startRun(6);L.rxw=0;if(ST.chr==null)ST.chr=Math.floor(Math.random()*3);const ch=CHR[ST.chr];let rxOK=false;
+ m.innerHTML=`${retryNote(6)}<div class="card"><h2>🧴 Stage 6 · 최종 관문</h2>
+ <p class="lead">미션: <span class="c-blue">원리 관문</span>에서 배운 차단 원리와 <span class="c-uv">실험 결과</span>를 활용해 친구에게 맞춤형 선크림 처방전을 작성하라!</p>
+ <div class="tip">🔎 실험에서 알게 된 사실<br>· 보습 로션은 자외선을 거의 막지 못한다.<br>· SPF가 높을수록 차단 효과가 크다.<br>· 바르는 양이 정량보다 적으면 차단 효과가 크게 떨어진다.<br>· 차단 원리가 달라도 SPF와 양이 같으면 차단 효과는 비슷하다 → 종류는 <span class="c-pink">피부 특성과 사용감</span>으로 고른다.</div>
+ <div id="tbw"></div></div>
+ <div class="card"><h3>📋 맞춤형 선크림 처방전</h3>
+  <div class="profile"><div class="em">${ch.emo}</div><div><div class="c-sun">${ch.name}</div><div>${ch.desc}</div></div></div>
+  <div class="rx" id="rx">${RXF.map(([k,t,o])=>`<div class="c-blue">${t}</div><select data-k="${k}"><option value="">선택하세요</option>${o.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select><div class="bad hidden" data-h="${k}"></div>`).join('')}</div>
+  <div class="fb" id="rxfb"></div><div id="rxb"></div></div>`;
+ const tbw=m.querySelector('#tbw'),tb=div('hidden',principleTable());
+ tbw.appendChild(btn('📖 차단제 비교표 다시 보기',e=>{tb.classList.toggle('hidden');e.target.innerHTML=tb.classList.contains('hidden')?'📖 차단제 비교표 다시 보기':'📕 비교표 접기'},'btn ghost sm'));tbw.appendChild(tb);
+ const rxb=btn('📝 처방전 검토 받기',()=>{if(rxOK)return;const v={};let empty=false;m.querySelectorAll('#rx select').forEach(s=>{v[s.dataset.k]=s.value;if(!s.value)empty=true});
+  if(empty){toast('처방전의 모든 항목을 선택하세요.');return}let wrong=0;
+  RXF.forEach(([k])=>{const h=m.querySelector(`[data-h="${k}"]`);const ok=ch.ok[k].includes(v[k]);h.classList.toggle('hidden',ok);if(!ok){wrong++;h.innerHTML='💡 '+(ch.why[k]||'친구의 생활과 피부 특성을 다시 읽어 보세요.')}});
+  L.rxw+=wrong;const f=m.querySelector('#rxfb');
+  if(wrong){f.className='fb bad';f.innerHTML=`❌ ${wrong}개 항목이 ${ch.name.split(' ')[0]}에게 맞지 않아요. 힌트를 보고 수정한 뒤 다시 검토를 받으세요.`;return}
+  rxOK=true;rxb.disabled=true;m.querySelectorAll('#rx select').forEach(s=>s.disabled=true);
+  ST.rx=RXF.map(([k,t,o])=>`${t}: ${o.find(x=>x[0]===v[k])[1]}`).join(' / ');
+  f.className='fb good';f.innerHTML=`⭕ ${ch.name.split(' ')[0]}에게 꼭 맞는 처방전입니다! 🏅 <span class="c-pink">선크림 마스터 배지</span>를 획득했어요.`;
+  complete(6,Math.max(8,20-2.5*L.rxw),m)},'btn blue');
+ m.querySelector('#rxb').appendChild(rxb)};
+
+/* ===================== 미션 성공(결과) ===================== */
+function gradeOf(t){return t>=90?'A':t>=80?'B':t>=70?'C':t>=60?'D':'F'}
+const GC={A:'#13935c',B:'#1f6fd6',C:'#f07f00',D:'#e0457b',F:'#d9443a'};
+function narrative(){const L=ST.log,r=n=>ST.score[n]/ST.max[n],o=[];
+ const p=(n,t)=>o.push(`<p><span class="c-sun">${SNAME[n]}</span> — ${t}</p>`);
+ p(1,r(1)>=.9?'UVA–PA, UVB–SPF의 대응 관계를 정확히 구분하였고, 활동 시간과 자외선 세기에 따라 알맞은 지수를 거의 실수 없이 처방하였습니다.':r(1)>=.7?`개념은 대체로 이해했으나 개념 문항에서 ${L[1].cw||0}회, 상황 매칭에서 ${L[1].mw||0}개 칸의 오답이 있었습니다. 노출 시간이 길고 자외선이 강할수록 지수를 높여야 한다는 기준을 다시 정리해 보세요.`:`SPF와 PA가 각각 어떤 자외선의 차단 지표인지에 대한 혼동이 보였습니다(개념 오답 ${L[1].cw||0}회, 매칭 오답 ${L[1].mw||0}칸). 자외선의 종류별 피부 영향과 지표를 먼저 복습해야 합니다.`);
+ p(2,r(2)>=.9?'무기자차의 반사·산란과 유기자차의 흡수·열 방출 원리를 대표 성분과 함께 정확히 구분하였고, 혼합자차의 특징까지 잘 이해하였습니다.':r(2)>=.7?`차단 원리는 대체로 이해했으나 카드 분류에서 ${L[2].sw||0}장, 퀴즈에서 ${L[2].cw||0}회 오답이 있었습니다. 비교표의 대표 성분과 장단점 줄을 다시 정리해 보세요.`:`무기자차와 유기자차의 구분에 어려움이 있었습니다(분류 오답 ${L[2].sw||0}장, 퀴즈 오답 ${L[2].cw||0}회). 확대 관찰 애니메이션에서 ‘튕겨 나감’과 ‘흡수 후 열’의 차이를 다시 확인하세요.`);
+ p(3,r(3)>=.9?'4가지 실험 모두에서 독립변인을 정확히 찾고 통제변인을 같게 맞추어, 공정한 실험을 설계하는 능력이 우수합니다.':r(3)>=.7?`실험 설계는 완성했지만 레버 확인 과정에서 ${L[3].err||0}회 수정이 필요했습니다. ‘하나만 다르게, 나머지는 모두 같게’라는 변인 통제 원칙을 의식하며 설계해 보세요.`:`독립변인과 통제변인의 구분에 어려움이 있었습니다(설계 수정 ${L[3].err||0}회, 공통 조건 오답 ${L[3].cw||0}회). 각 실험에서 일부러 다르게 한 조건이 무엇인지부터 찾는 연습이 필요합니다.`);
+ p(4,(r(4)>=.9?'시광 스티커의 변색 정도를 범례와 정확히 비교하여 관찰 결과를 신뢰도 높게 기록하였습니다.':r(4)>=.7?`관찰 기록 중 ${L[4].err||0}개 구역에서 실제 색과 차이가 있어 다시 관찰하였습니다. 기록 전 범례와 하나씩 비교하는 습관을 들이면 정확도가 높아집니다.`:`관찰 기록의 정확도가 낮았습니다(재확인 필요 구역 ${L[4].err||0}개). 결과를 성급히 기록하기보다 색의 단계를 꼼꼼히 비교하는 태도가 필요합니다.`)+` 실험 전 세운 가설은 4개 실험 중 ${L[4].pm??0}개가 실제 결과와 일치하였습니다.`);
+ p(5,r(5)>=.9?'변색 결과를 바르는 양, 차단 성분 유무와 논리적으로 연결하였고, 오차의 원인과 개선 방안을 구체적으로 제시하였습니다.':r(5)>=.7?`결과 해석은 대체로 적절했으나 분석 문항에서 ${L[5].mw||0}회 오답이 있었거나 개선 방안이 다소 부족했습니다. 반복 측정, 균일하게 바르기, 정확한 양 측정 등 구체적 방법을 보완해 보세요.`:`결과의 원인을 실험 조건과 연결하는 데 어려움이 있었습니다(분석 오답 ${L[5].mw||0}회). 이론과 다른 결과가 나왔을 때 실험 과정의 어느 부분이 문제였는지 찾는 연습이 필요합니다.`);
+ p(6,r(6)>=.9?'친구의 피부 특성과 활동 환경을 차단 원리 및 실험 결과와 연결하여 타당한 처방전을 한 번에 완성하였습니다.':r(6)>=.7?`처방전은 완성했지만 검토 과정에서 ${L[6].rxw||0}개 항목을 수정하였습니다. 피부 특성은 차단제 종류, 활동 환경은 SPF·PA·덧바르기·내수성과 연결된다는 점을 기억하세요.`:`처방 항목을 여러 번 수정하였습니다(수정 ${L[6].rxw||0}항목). 친구의 프로필을 피부 특성과 활동 환경으로 나누어 읽고, 비교표와 실험 결과를 근거로 선택해 보세요.`);
+ return o.join('')}
+const WEAK={1:'SPF·PA 개념과 상황별 지수 처방',2:'무기·유기·혼합자차 차단 원리 구분',3:'독립변인·통제변인 설계',4:'시광 스티커 관찰 기록의 정확성',5:'결과 해석과 오차 원인·개선 방안',6:'맞춤형 처방전 작성'};
+R[7]=function(m){
+ const tot=Math.round([1,2,3,4,5,6].reduce((a,n)=>a+ST.score[n],0)*10)/10,g=gradeOf(tot);
+ const nextT={B:90,C:80,D:70,F:60}[g];
+ const weak=[1,2,3,4,5,6].filter(n=>ST.score[n]/ST.max[n]<.8).sort((a,b)=>(ST.max[b]-ST.score[b])-(ST.max[a]-ST.score[a]));
+ const ws=[['Stage 5 · 실험 개선 방안',ST.write.s4],['Stage 6 · 맞춤형 처방전',ST.rx?`[${CHR[ST.chr].name}] ${ST.rx}`:'']];
+ const today=new Date().toLocaleDateString('ko-KR');
+ m.innerHTML=`<div class="card" id="report">
+  <div class="rep-head"><div><h2 style="margin:0">🏆 미션 성공! 자외선 방어 작전 리포트</h2><div class="c-sub small">${today} · 연구원 <span class="c-blue">${ST.sid} ${ST.name}</span></div></div>
+   <div class="brand" style="margin-left:0;border:1px solid var(--line)">${document.querySelector('#brand img').outerHTML}<div><div class="lg">EARTH <span>LJY</span></div><div class="em">earthljy@ai.jne.kr</div></div></div></div>
+  <div class="grid2" style="align-items:center"><div style="text-align:center"><div class="grade" style="background:${GC[g]}">${g}</div><div style="margin-top:8px">총점 <span style="color:${GC[g]};font-size:24px">${tot}</span> / 100점</div><div class="small c-sub">A 90↑ · B 80↑ · C 70↑ · D 60↑ · F 60 미만</div></div>
+   <div>${[1,2,3,4,5,6].map(n=>{const rt=ST.score[n]/ST.max[n];const c=rt>=.9?'#13935c':rt>=.8?'#1f6fd6':rt>=.6?'#f07f00':'#d9443a';return `<div class="sc-row"><div>${SNAME[n].replace(' 관문','')}</div><div class="bar"><i style="width:${rt*100}%;background:${c}"></i></div><div style="color:${c}">${ST.score[n]}/${ST.max[n]}</div></div>`}).join('')}</div></div>
+  <h3>🧭 과제 수행 과정 피드백</h3><div class="narr">${narrative()}<p><span class="c-green">종합</span> — ${g==='A'?'모든 단계에서 탐구 과정을 충실히 수행하였습니다. 원리 이해부터 실험 설계, 결론 도출까지 과학적으로 사고하는 능력이 돋보입니다.':`총 ${tot}점으로 ${g}등급입니다. 아래 ‘등급 올리기’에 안내된 단계만 다시 수행하면 더 높은 등급에 도전할 수 있습니다.`}</p></div>
+  <h3>✍️ 내가 작성한 내용</h3>${ws.map(([t,v])=>`<div class="small c-blue">${t}</div><div class="wbox">${v?v.replace(/</g,'&lt;'):'<span class="c-sub">(작성 내용 없음)</span>'}</div>`).join('')}
+ </div>
+ <div class="card"><h3>📈 등급 올리기 가이드</h3><div class="up" id="up"></div></div>
+ <div class="card" style="text-align:center"><div id="dl"></div><p class="small c-sub">이미지 저장이 되지 않으면 화면 캡처로 저장하여 제출하세요.</p></div>`;
+ const up=m.querySelector('#up');
+ if(g==='A'&&!weak.length)up.innerHTML='<span class="c-green">🎉 최고 등급 A를 달성했습니다! 모든 단계를 우수하게 수행하였습니다.</span>';
+ else{up.innerHTML=g==='A'?'<div class="c-green">🎉 A등급입니다! 아래 단계를 보완하면 만점에 더 가까워질 수 있어요.</div>':`<div>다음 등급(<span style="color:${GC[gradeOf(nextT)]}">${gradeOf(nextT)}</span>)까지 <span class="c-red">${Math.round((nextT-tot)*10)/10}점</span>이 더 필요합니다. 부족했던 수행 과정만 골라 다시 도전하세요. (재도전 시 <span class="c-green">더 높은 점수</span>가 반영됩니다)</div>`;
+  (weak.length?weak:[1,2,3,4,5,6].filter(n=>ST.score[n]<ST.max[n])).forEach(n=>{const it=div('it',`<div><span class="c-sun">${SNAME[n]}</span> · ${WEAK[n]}<br><span class="small c-sub">현재 ${ST.score[n]}/${ST.max[n]}점 · 최대 <span class="c-green">+${Math.round((ST.max[n]-ST.score[n])*10)/10}점</span> 상승 가능</span></div>`);
+   it.appendChild(btn('🔁 이 단계만 다시 수행',()=>go(n),'btn sm ghost'));up.appendChild(it)})}
+ m.querySelector('#dl').appendChild(btn('🖼️ 리포트 이미지(PNG) 다운로드',()=>{
+  if(typeof html2canvas==='undefined'){toast('인터넷 연결이 필요합니다. 화면 캡처로 저장해 주세요.');return}
+  html2canvas(document.getElementById('report'),{scale:2,backgroundColor:'#ffffff'}).then(c=>{const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download=`선크림마스터_${ST.sid}_${ST.name}.png`;a.click()})},'btn green'))};
+
+/* ===================== 시작 ===================== */
+go(0);
+</script>
+</body>
+</html>
